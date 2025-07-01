@@ -4,6 +4,7 @@ public class AuthenticationResponse {
 
     private boolean success;
     private String userId;
+    private String jwt;
     private String message;
 
     public AuthenticationResponse() {
@@ -25,6 +26,14 @@ public class AuthenticationResponse {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 
     public String getMessage() {

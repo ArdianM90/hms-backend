@@ -2,6 +2,11 @@ package com.project.hotel_management_system.user.account.repository;
 
 import com.project.hotel_management_system.utils.ShortId;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user_account")
@@ -12,15 +17,15 @@ public class UserAccountEntity {
     private String id;
 
     @Column(unique = true, nullable = false)
-    private String nickname;
+    private String username;
 
     private String password;
 
     public UserAccountEntity() {
     }
 
-    public UserAccountEntity(String nickname, String password) {
-        this.nickname = nickname;
+    public UserAccountEntity(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
@@ -40,19 +45,19 @@ public class UserAccountEntity {
 //        this.customId = customId;
 //    }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getPassword() {
-        return password;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

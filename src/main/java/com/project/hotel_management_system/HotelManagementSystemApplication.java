@@ -35,7 +35,7 @@ public class HotelManagementSystemApplication implements CommandLineRunner {
 		userAccountDao.save(new UserAccountEntity("adrian", "test"));
 		System.out.println("Login data correct: " + userAccountDao.getUserId("adrian", "test"));
 		System.out.println("=======");
-		userAccountDao.findAll().forEach(e -> System.out.println("ID: " + e.getId() + ", login: " + e.getNickname()));
+		userAccountDao.findAll().forEach(e -> System.out.println("ID: " + e.getId() + ", username: " + e.getUsername()));
 		System.out.println("=======");
 
 		reservationDao.save(
