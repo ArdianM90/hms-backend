@@ -1,12 +1,12 @@
 package com.project.hms;
 
-import com.project.hms.hotel_list.repository.HotelListCrudDao;
-import com.project.hms.hotel_list.repository.HotelEntity;
-import com.project.hms.reservation.repository.ReservationCrudDao;
-import com.project.hms.reservation.repository.ReservationEntity;
-import com.project.hms.user.account.repository.UserAccountJpaDao;
-import com.project.hms.user.account.repository.UserAccountEntity;
-import com.project.hms.utils.CountryEnum;
+import com.project.hms.common.CountryEnum;
+import com.project.hms.modules.hotel_list.repository.HotelListCrudDao;
+import com.project.hms.modules.hotel_list.entity.HotelEntity;
+import com.project.hms.modules.reservation.repository.ReservationCrudDao;
+import com.project.hms.modules.reservation.entity.ReservationEntity;
+import com.project.hms.modules.account.repository.UserAccountJpaDao;
+import com.project.hms.modules.account.entity.UserAccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
