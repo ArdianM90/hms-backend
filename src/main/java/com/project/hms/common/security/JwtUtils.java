@@ -1,6 +1,6 @@
 package com.project.hms.common.security;
 
-import com.project.hms.modules.authentication.dto.UserDto;
+import com.project.hms.modules.authentication.dto.UserPrincipal;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -24,10 +24,10 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(UserDto userDto) {
+    public String generateToken(UserPrincipal userPrincipal) {
         return Jwts.builder()
-                .subject(userDto.getUsername())
-                .claim("id", userDto.getId())
+                .subject(userPrincipal.getUsername())
+                .claim("id", userPrincipal.getId())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_MS))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)

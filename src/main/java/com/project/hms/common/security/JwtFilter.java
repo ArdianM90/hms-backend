@@ -1,9 +1,11 @@
 package com.project.hms.common.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +30,9 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain chain) throws ServletException, IOException {
         if (request.getRequestURI().contains("login")) {
             chain.doFilter(request, response);
             return;
@@ -38,7 +42,14 @@ public class JwtFilter extends OncePerRequestFilter {
         String jwt = null;
         if (StringUtils.hasText(authHeader) && authHeader.startsWith(BEARER)) {
             jwt = authHeader.substring(BEARER.length());
-            username = jwtUtils.extractUsername(jwt);
+            try {
+                username = jwtUtils.extractUsername(jwt);
+            } catch (ExpiredJwtException e) {
+                //todo implementacja refresh token + obsługa błędu na froncie
+                System.out.println("Token expired: " + e.getMessage());
+                chain.doFilter(request, response);
+                return;
+            }
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);

@@ -1,6 +1,6 @@
 package com.project.hms.modules.account.repository;
 
-import com.project.hms.modules.authentication.dto.UserDto;
+import com.project.hms.modules.authentication.dto.UserPrincipal;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,6 +19,7 @@ public class UserAccountCustomDaoImpl implements UserAccountCustomDao {
         this.entityManager = entityManager;
     }
 
+    //todo hasła są teraz encodowane - metoda do poprawy albo usunięcia
     @Override
     public String getUserId(String username, String password) {
          List<String> result = entityManager
@@ -32,14 +33,14 @@ public class UserAccountCustomDaoImpl implements UserAccountCustomDao {
     }
 
     @Override
-    public UserDto getUserDtoByLogin(String username) {
+    public UserPrincipal getUserDtoByLogin(String username) {
         String query = """
-                SELECT new com.project.hms.modules.authentication.dto.UserDto(u.id, u.username, u.password)
+                SELECT new com.project.hms.modules.authentication.dto.UserPrincipal(u.id, u.username, u.password)
                 FROM UserAccountEntity u
                 WHERE u.username = :username
                 """;
         return entityManager
-                .createQuery(query, UserDto.class)
+                .createQuery(query, UserPrincipal.class)
                 .setParameter("username", username)
                 .getSingleResult();
     }

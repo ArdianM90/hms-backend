@@ -1,7 +1,7 @@
 package com.project.hms.modules.authentication;
 
 import com.project.hms.modules.authentication.dto.AuthenticationResponse;
-import com.project.hms.modules.authentication.dto.UserDto;
+import com.project.hms.modules.authentication.dto.UserPrincipal;
 import com.project.hms.modules.account.UserAccountService;
 import com.project.hms.common.security.JwtUtils;
 import org.springframework.http.HttpStatus;
@@ -39,9 +39,9 @@ public class AuthenticationController {
         } catch (AuthenticationException e) {
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
-        UserDto userDto = userAccountService.loadUserByUsername(login);
-        response.setJwt(jwtUtils.generateToken(userDto));
-        response.setUserId(userDto.getId());
+        UserPrincipal userPrincipal = userAccountService.loadUserByUsername(login);
+        response.setJwt(jwtUtils.generateToken(userPrincipal));
+        response.setUserId(userPrincipal.getId());
         response.setSuccess(true);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -1,6 +1,6 @@
 package com.project.hms.modules.account;
 
-import com.project.hms.modules.authentication.dto.UserDto;
+import com.project.hms.modules.authentication.dto.UserPrincipal;
 import com.project.hms.modules.account.repository.UserAccountJpaDao;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,7 +16,7 @@ public class UserAccountService implements UserDetailsService {
     }
 
     @Override
-    public UserDto loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserPrincipal loadUserByUsername(String username) throws UsernameNotFoundException {
         return userAccountJpaDao.getUserDtoByLogin(username);
     }
 }

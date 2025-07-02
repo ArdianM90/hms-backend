@@ -6,13 +6,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class UserDto implements UserDetails {
+//todo - implementacja listy ról
+public class UserPrincipal implements UserDetails {
 
     private String id;
     private String username;
     private String password;
 
-    public UserDto(String id, String username, String password) {
+    public UserPrincipal(String id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;

@@ -1,9 +1,9 @@
 package com.project.hms.modules.account.repository;
 
-import com.project.hms.modules.authentication.dto.UserDto;
+import com.project.hms.modules.authentication.dto.UserPrincipal;
 
 public interface UserAccountCustomDao {
     String getUserId(String username, String password);
 
-    UserDto getUserDtoByLogin(String login);
+    UserPrincipal getUserDtoByLogin(String login);
 }
