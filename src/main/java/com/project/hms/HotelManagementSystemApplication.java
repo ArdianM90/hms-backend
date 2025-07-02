@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -26,13 +27,17 @@ public class HotelManagementSystemApplication implements CommandLineRunner {
 	@Autowired
 	ReservationCrudDao reservationDao;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HotelManagementSystemApplication.class, args);
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
-		userAccountDao.save(new UserAccountEntity("adrian", "test"));
+	public void run(String... args) {
+		String encodedPass = passwordEncoder.encode("test");
+		userAccountDao.save(new UserAccountEntity("adrian", encodedPass));
 		System.out.println("Login data correct: " + userAccountDao.getUserId("adrian", "test"));
 		System.out.println("=======");
 		userAccountDao.findAll().forEach(e -> System.out.println("ID: " + e.getId() + ", username: " + e.getUsername()));
@@ -65,5 +70,4 @@ public class HotelManagementSystemApplication implements CommandLineRunner {
 				new HotelEntity("Four Seasons Hotel", "Toronto", CountryEnum.CANADA, "32-015 Kłaj", 248.00));
 
 	}
-
 }
