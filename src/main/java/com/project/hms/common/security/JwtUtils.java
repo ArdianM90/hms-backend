@@ -14,7 +14,10 @@ import java.util.Date;
 @Component
 public class JwtUtils {
     private final String SECRET;
-    private final long EXPIRATION_MS = 5 * 60 * 1000;
+//    private final long SHORT_EXPIRATION_MS = 5 * 60 * 1000;
+//    private final long LONG_EXPIRATION_MS = 24 * 60 * 60 * 1000;
+    private final long SHORT_EXPIRATION_MS = 30 * 1000;
+    private final long LONG_EXPIRATION_MS = 10 * 60 * 1000;
 
     public JwtUtils(@Value("${jwt.secret}") String secret) {
         this.SECRET = secret;
@@ -24,14 +27,28 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(UserPrincipal userPrincipal) {
-        return Jwts.builder()
-                .subject(userPrincipal.getUsername())
-                .claim("id", userPrincipal.getId())
+    public String generateToken(UserPrincipal principal) {
+        String token = Jwts.builder()
+                .subject(principal.getUsername())
+                .claim("id", principal.getId())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_MS))
+                .expiration(new Date(System.currentTimeMillis() + SHORT_EXPIRATION_MS))
                 .signWith(getSigningKey(), Jwts.SIG.HS512)
                 .compact();
+        System.out.println("Wygenerowany token JWT: " + token);
+        return token;
+    }
+
+    public String generateRefreshToken(UserPrincipal principal) {
+        String token = Jwts.builder()
+                .subject(principal.getUsername())
+                .claim("id", principal.getId())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + LONG_EXPIRATION_MS))
+                .signWith(getSigningKey(), Jwts.SIG.HS512)
+                .compact();
+        System.out.println("Wygenerowany refresh token: " + token);
+        return token;
     }
 
     public String extractUsername(String token) {
@@ -46,19 +63,19 @@ public class JwtUtils {
     public boolean validateToken(String token, String username) {
         try {
             String tokenUsername = extractUsername(token);
-            return tokenUsername.equals(username) && !isTokenExpired(token);
+            return tokenUsername.equals(username) && isTokenExpirationValid(token);
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpirationValid(String token) {
         Date expiration = Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
                 .getExpiration();
-        return expiration.before(new Date());
+        return expiration.after(new Date());
     }
 }

@@ -17,6 +17,6 @@ public class UserAccountService implements UserDetailsService {
 
     @Override
     public UserPrincipal loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userAccountJpaDao.getUserDtoByLogin(username);
+        return userAccountJpaDao.getUserPrincipalByLogin(username);
     }
 }

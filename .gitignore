@@ -29,3 +29,6 @@ nbdist/
 
 # Spring Initializr help file (opcjonalnie)
 HELP.md
+
+# certs
+*.p12

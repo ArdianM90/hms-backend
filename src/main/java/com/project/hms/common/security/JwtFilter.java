@@ -1,10 +1,14 @@
 package com.project.hms.common.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.hms.common.HttpErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,7 +37,8 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain chain) throws ServletException, IOException {
-        if (request.getRequestURI().contains("login")) {
+        String uri = request.getRequestURI();
+        if (uri.contains("login") || uri.contains("auth/refresh")) {
             chain.doFilter(request, response);
             return;
         }
@@ -45,10 +50,13 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 username = jwtUtils.extractUsername(jwt);
             } catch (ExpiredJwtException e) {
-                //todo implementacja refresh token + obsługa błędu na froncie
                 System.out.println("Token expired: " + e.getMessage());
+                request.setAttribute("auth_error", "TOKEN_EXPIRED");
+                SecurityContextHolder.clearContext();
                 chain.doFilter(request, response);
                 return;
+            } catch (JwtException e) {
+                request.setAttribute("auth_error", "INVALID_TOKEN");
             }
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
