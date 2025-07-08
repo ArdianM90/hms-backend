@@ -5,6 +5,8 @@ import com.project.hms.modules.authentication.dto.LoginRequest;
 import com.project.hms.modules.authentication.dto.UserPrincipal;
 import com.project.hms.modules.account.UserAccountService;
 import com.project.hms.common.security.JwtUtils;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -18,7 +20,7 @@ import java.time.Duration;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/hms/v1/")
+@RequestMapping("/hms/v1/auth/")
 public class AuthenticationController {
 
     private final UserAccountService userAccountService;
@@ -60,7 +62,17 @@ public class AuthenticationController {
                 .body(response);
     }
 
-    @PostMapping("/auth/refresh")
+    @PostMapping("logout")
+    public ResponseEntity<Void> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("refresh")
     public ResponseEntity<AuthenticationResponse> refreshToken(@CookieValue(value = "refreshToken", required = false) String refreshToken) {
         AuthenticationResponse response = new AuthenticationResponse();
         System.out.println("Odświeżam token: " + refreshToken);

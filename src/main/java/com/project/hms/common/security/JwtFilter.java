@@ -1,14 +1,11 @@
 package com.project.hms.common.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.hms.common.HttpErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +35,7 @@ public class JwtFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain chain) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        if (uri.contains("login") || uri.contains("auth/refresh")) {
+        if (uri.contains("auth/login") || uri.contains("auth/refresh") || uri.contains("auth/logout")) {
             chain.doFilter(request, response);
             return;
         }

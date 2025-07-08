@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/hms/v1/login**", "/hms/v1/auth/refresh").permitAll()
+                        .requestMatchers("/hms/v1/auth/login**", "/hms/v1/auth/logout", "/hms/v1/auth/refresh").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
