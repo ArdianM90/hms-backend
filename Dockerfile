@@ -2,8 +2,8 @@ FROM eclipse-temurin:22-jdk
 
 WORKDIR /app
 
-COPY target/*.jar app.jar
+COPY . .
 
-EXPOSE 8443
+RUN ./mvnw package -DskipTests
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "target/demo-0.0.1-SNAPSHOT.jar"]
