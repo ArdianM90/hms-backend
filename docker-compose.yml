@@ -11,3 +11,21 @@ services:
       PG_PASSWORD: ${PG_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: hms-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: exercises
+      POSTGRES_USER: ${PG_USERNAME}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
