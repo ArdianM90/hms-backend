@@ -14,13 +14,12 @@ import java.util.Date;
 @Component
 public class JwtUtils {
     private final String SECRET;
-//    private final long SHORT_EXPIRATION_MS = 5 * 60 * 1000;
-//    private final long LONG_EXPIRATION_MS = 24 * 60 * 60 * 1000;
-    private final long SHORT_EXPIRATION_MS = 30 * 1000;
-    private final long LONG_EXPIRATION_MS = 10 * 60 * 1000;
+    private final long SHORT_EXPIRATION_MS = 5 * 60 * 1000;
+    private final long LONG_EXPIRATION_MS = 24 * 60 * 60 * 1000;
 
     public JwtUtils(@Value("${jwt.secret}") String secret) {
         this.SECRET = secret;
+        System.out.println("Secret: " + SECRET.length());
     }
 
     private SecretKey getSigningKey() {
@@ -33,7 +32,7 @@ public class JwtUtils {
                 .claim("id", principal.getId())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + SHORT_EXPIRATION_MS))
-                .signWith(getSigningKey(), Jwts.SIG.HS512)
+                .signWith(getSigningKey(), Jwts.SIG.HS256)
                 .compact();
         System.out.println("Wygenerowany token JWT: " + token);
         return token;
@@ -45,7 +44,7 @@ public class JwtUtils {
                 .claim("id", principal.getId())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + LONG_EXPIRATION_MS))
-                .signWith(getSigningKey(), Jwts.SIG.HS512)
+                .signWith(getSigningKey(), Jwts.SIG.HS256)
                 .compact();
         System.out.println("Wygenerowany refresh token: " + token);
         return token;

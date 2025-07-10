@@ -24,6 +24,13 @@ Backendowa część aplikacji do rezerwacji hoteli, napisana w Java 22 z użycie
 - Java 22
 - Docker
 
+**Zmienne środowiskowe**
+
+Przed uruchomieniem aplikacji upewnij się, że zdefiniowałeś następujące zmienne środowiskowe, np. w pliku .env lub eksportując je w swojej powłoce:
+- `PG_USERNAME` – nazwa użytkownika PostgreSQL,
+- `PG_PASSWORD` – hasło do PostgreSQL,
+- `JWT_SECRET` – sekret do generowania tokenów JWT (biblioteka jjwt wymaga ciągu znaków o długości co najmniej 32 znaków dla algorytmu HS256).
+
 Do prawidłowego działania logowania wymagane są:
 - uruchomiony frontend: [hms-frontend](https://github.com/ArdianM90/hms-frontend)
 - wygenerowany plik `keystore.p12` w `./src/main/resources`

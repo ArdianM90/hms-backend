@@ -24,6 +24,13 @@ This is the backend part of a hotel booking application, built with Java 22 usin
 - Java 22
 - Docker
 
+**Environment Variables**
+
+Before running the application, make sure to define the following environment variables, e.g., in a .env file or export them in your shell:
+- `PG_USERNAME` - PostgreSQL user name,
+- `PG_PASSWORD` - PostgreSQL password,
+- `JWT_SECRET` - secret to generate JWT token (jjwt requires string of at least 32 characters for HS256).
+
 To enable user authentication, make sure:
 - the frontend is running: [hms-frontend](https://github.com/ArdianM90/hms-frontend)
 - the `keystore.p12` file is present in `./src/main/resources`
