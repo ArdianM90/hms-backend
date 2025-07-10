@@ -36,8 +36,8 @@ public class HotelManagementSystemApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		String encodedPass = passwordEncoder.encode("test");
-		userAccountDao.save(new UserAccountEntity("adrian", encodedPass));
+		String encodedPass = passwordEncoder.encode("demo123");
+		userAccountDao.save(new UserAccountEntity("demo", encodedPass));
 		System.out.println("=======");
 		userAccountDao.findAll().forEach(e -> System.out.println("ID: " + e.getId() + ", username: " + e.getUsername()));
 		System.out.println("=======");

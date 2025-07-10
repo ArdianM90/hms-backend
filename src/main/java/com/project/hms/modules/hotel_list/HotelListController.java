@@ -15,8 +15,9 @@ public class HotelListController {
         this.hotelListService = hotelListService;
     }
 
-    @GetMapping("/hotel")
-    public HotelResponse getHotel(@RequestParam Integer hotelId) {return hotelListService.getHotel(hotelId);
+    @GetMapping("/hotel/{id}")
+    public HotelResponse getHotel(@PathVariable Integer id) {
+        return hotelListService.getHotel(id);
     }
 
     @GetMapping("/hotels")
