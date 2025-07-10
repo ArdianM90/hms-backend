@@ -27,12 +27,12 @@ This is the backend part of a hotel booking application, built with Java 22 usin
 **Environment Variables**
 
 Before running the application, make sure to define the following environment variables, e.g., in a .env file or export them in your shell:
-- `PG_USERNAME` - PostgreSQL user name,
-- `PG_PASSWORD` - PostgreSQL password,
-- `JWT_SECRET` - secret to generate JWT token (jjwt requires string of at least 32 characters for HS256).
+- `PG_USERNAME` - PostgreSQL user name
+- `PG_PASSWORD` - PostgreSQL password
+- `JWT_SECRET` - secret to generate JWT token (jjwt requires string of at least 32 characters for HS256)
 
 To enable user authentication, make sure:
-- the frontend is running: [hms-frontend](https://github.com/ArdianM90/hms-frontend)
+- the frontend is running: [see repository](https://github.com/ArdianM90/hms-frontend)
 - the `keystore.p12` file is present in `./src/main/resources`
 
 To generate the `keystore.p12` file, run:
@@ -63,7 +63,7 @@ By default, the application runs at: [https://localhost:8443](https://localhost:
 - JJWT – JWT processing library
 - Maven – project build and dependency management
 - Docker / Docker Compose – containerization of the app and the database
-- [Render](https://render.com//) – backend hosting
+- [Render](https://render.com/) – backend hosting
 
 ## REST API – available endpoints
 ### Authentication (AuthenticationController.java)
@@ -82,5 +82,5 @@ By default, the application runs at: [https://localhost:8443](https://localhost:
 | GET    | /hms/v1/hotels     | Get a list of all hotels | access token/ refresh token |
 
 ## Planned Features (Work in Progress):
-- user registration,
-- hotel booking functionality (user can create a reservation).
+- user registration
+- hotel booking functionality (user can create a reservation)
